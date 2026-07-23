@@ -1,5 +1,7 @@
 const std = @import("std");
 
+// -------------- temp functions created until the actual ones are -------------------------
+
 fn cbuild(args: anytype) void {
     std.debug.print("Build Called Successfully\n", .{});
     _ = args;
@@ -19,7 +21,7 @@ fn c_init(args: anytype) void {
     _ = args;
 }
 
-pub fn main(init: std.process.Init.Minimal) !void {
+pub fn handle_cli(init: std.process.Init.Minimal) !void {
     var args = init.args.iterate();
     _ = args.next();
     const command: ?[:0]const u8 = args.next() orelse null;
