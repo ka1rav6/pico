@@ -8,10 +8,7 @@ pub const FileType = enum { HEADER, CPP };
 /// the main file storage container.
 /// contains a path of the file from the root directory
 /// and the file type
-pub const File = struct {
-    f_type: FileType,
-    path: []const u8,
-};
+pub const File = struct { f_type: FileType, path: []const u8, hash_value: []u8 };
 
 /// The main file registry.
 /// contains all cpp and header files along with their information
@@ -54,10 +51,10 @@ pub fn recursiveReader(
             .file => {
                 if (std.mem.endsWith(u8, entry.name, ".cpp")) {
                     const full_path = try std.fs.path.join(allocator, &.{ directory, entry.name });
-                    try registry.add(.{ .f_type = .CPP, .path = full_path });
-                } else if (std.mem.endsWith(u8, entry.name, ".h")) {
+                    try registry.add(.{ .f_type = .CPP, .path = full_path, .hash_value = null });
+                } else if (std.mem.endsWith(u8, entry.name, ".h") or std.mem.endsWith(u8, entry.name, ".hpp")) {
                     const full_path = try std.fs.path.join(allocator, &.{ directory, entry.name });
-                    try registry.add(.{ .f_type = .HEADER, .path = full_path });
+                    try registry.add(.{ .f_type = .HEADER, .path = full_path, .hash_value = null });
                 }
             },
             .directory => {
