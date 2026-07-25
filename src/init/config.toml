@@ -1,0 +1,246 @@
+# This is the default toml file created by the pico build system.
+# remove any comment here to add that configuration to pico.
+
+# Don't forget to name your version/file:
+# TODO: make the name be that of the folder!!!
+[project] # do not remove this table or else pico becomes wildd
+# this is what your project will be named. This doesn't have to be the name of your executable that is created
+# (if only one) but it will be by default.
+name = ""   # by default this will be empty. 
+# here is the version of your current build. It is just to track the version.
+version = "0.0.0" # version can also be changed using TODO: pico config project.version="0.0.1"
+
+# Currently pico only supports cpp, but it hopes to support c soon too! Till then, unfortunately, this is fixed.
+language = "cpp" # or c++
+
+# You can modify this as whatever version you want to use, but by default this is c++23
+# TODO: have init call g++ (or clang++) version and replace it here. 
+language_standard = "c++23"
+
+
+# Compiler configurations
+[compiler]
+name = "g++" # g++ is the default but we also support clang++! Change it however you like!
+
+# All the following are flags that you can add/enable for the compiler to work. 
+optimization = "O2"
+debug = true
+warnings = "all"
+
+# pico provides a better way to use flags.
+# You don't have to know compiler flags always to use them properly.
+# So, we provide you with some booleans you can just comment/uncomment whichever one you like
+
+# or you can just use the following array and type every flag you need:
+flags = [
+    # "-pedantic",
+    # "0fast"
+]
+
+
+
+
+# This is the other way:
+# # =========================
+# # Diagnostics
+# # =========================
+#
+# treat_warnings_as_errors = true        # -Werror
+# enable_all_warnings = true             # -Wall
+# enable_extra_warnings = true           # -Wextra
+# enable_pedantic = true                 # -Wpedantic
+# fatal_errors = true                    # -Wfatal-errors
+# color_diagnostics = true               # -fdiagnostics-color=always
+#
+# # =========================
+# # Optimization
+# # =========================
+#
+# optimization = "0"                     # -O0
+# optimization = "1"                     # -O1
+# optimization = "2"                     # -O2
+# optimization = "3"                     # -O3
+# optimization = "s"                     # -Os
+# optimization = "fast"                  # -Ofast
+# optimization = "z"                     # -Oz (clang)
+#
+# link_time_optimization = true          # -flto
+# fast_math = true                       # -ffast-math
+# omit_frame_pointer = true              # -fomit-frame-pointer
+#
+# # =========================
+# # Debugging
+# # =========================
+#
+# debug_symbols = true                   # -g
+# debug_level = 3                        # -g3
+# strip_symbols = true                   # -s
+#
+# # =========================
+# # C++ Standard
+# # =========================
+#
+# cpp_standard = "20"                    # -std=c++20
+# gnu_extensions = false                 # -std=c++20 vs gnu++20
+#
+# # =========================
+# # Runtime
+# # =========================
+#
+# exceptions = false                     # -fno-exceptions
+# rtti = false                           # -fno-rtti
+# threadsafe_statics = false             # -fno-threadsafe-statics
+#
+# # =========================
+# # Sanitizers
+# # =========================
+#
+# address_sanitizer = true               # -fsanitize=address
+# thread_sanitizer = true                # -fsanitize=thread
+# undefined_sanitizer = true             # -fsanitize=undefined
+# memory_sanitizer = true                # -fsanitize=memory
+# leak_sanitizer = true                  # -fsanitize=leak
+#
+# # =========================
+# # CPU
+# # =========================
+#
+# native_architecture = true             # -march=native
+# cpu = "znver5"                         # -march=znver5
+# tune = "znver5"                        # -mtune=znver5
+#
+# # =========================
+# # Linking
+# # =========================
+#
+# static = true                          # -static
+# shared = true                          # -shared
+# pie = true                             # -pie
+# position_independent_code = true       # -fPIC
+#
+# # =========================
+# # Preprocessor
+# # =========================
+#
+# define = ["DEBUG=1"]                   # -DDEBUG=1
+# undefine = ["NDEBUG"]                  # -UNDEBUG
+# include_dirs = ["include"]             # -Iinclude
+# system_include_dirs = ["thirdparty"]   # -isystem thirdparty
+#
+# # =========================
+# # Libraries
+# # =========================
+#
+# library_dirs = ["lib"]                 # -Llib
+# libraries = ["pthread"]                # -lpthread
+#
+# # =========================
+# # Misc
+# # =========================
+#
+# verbose = true                         # -v
+# save_temps = true                      # -save-temps
+# emit_assembly = true                   # -S
+# compile_only = true                    # -c
+
+
+# Include directories
+# if any other directories need to be used,
+# drop down the path to them here! 
+# pico will include them in your final executable!
+includes = [
+    "include",
+    # "third_party/glfw/include", # some other examples
+    # "third_party/glm",
+    # "third_party/stb"
+]
+
+
+# Similarly, there are source directories
+sources = [
+    "src",
+    # "src/rendering",
+    # "src/core",
+    # "src/math",
+    # "src/util"
+]
+
+# # Files to ignore
+# exclude = [
+#     "src/tests/*",
+#     "src/experimental"
+# ]
+#
+# TODO : create proper comments explaining everything here
+
+# # Preprocessor definitions
+# defines = [
+#     "GLFW_INCLUDE_NONE",
+#     "USE_OPENGL",
+#     "ENABLE_LOGGING"
+# ]
+#
+# # Libraries
+# [libraries]
+#
+# system = [
+#     "GL",
+#     "dl",
+#     "pthread"
+# ]
+#
+# static = [
+#     "third_party/lib/libglfw.a"
+# ]
+#
+# shared = []
+#
+# # Linker
+# [linker]
+# flags = [
+#     "-Wl,--as-needed"
+# ]
+#
+# # Assets copied after build
+# [assets]
+# copy = [
+#     "assets",
+#     "shaders",
+#     "textures"
+# ]
+
+# Tests
+[tests]
+enabled = true
+directory = "tests"
+
+# Formatting
+[format]
+command = "clang-format"
+style = "LLVM"
+
+# Linting
+[lint]
+command = "clang-tidy"
+checks = [
+    "modernize-*",
+    "performance-*",
+    "bugprone-*"
+]
+
+# # Custom commands
+# [[steps]]
+# name = "Generate Version Header"
+# before = "compile"
+# command = "./scripts/gen_version"
+#
+# [[steps]]
+# name = "Copy Resources"
+# after = "build"
+# command = "./scripts/copy_assets"
+#
+# # Environment variables
+# [env]
+# ASSET_PATH = "./assets"
+# LOG_LEVEL = "info"
+
