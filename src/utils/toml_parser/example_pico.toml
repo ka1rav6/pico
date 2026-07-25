@@ -1,0 +1,131 @@
+# Project Information
+[project]
+name = "GameEngine"
+version = "1.2.0"
+language = "cpp"
+cpp_standard = "c++23"
+
+# Output
+[build]
+target = "executable"
+output = "bin/GameEngine"
+build_dir = "build"
+
+# Compiler
+[compiler]
+name = "clang++"
+optimization = "O2"
+debug = true
+warnings = "all"
+
+flags = [
+    "-Winvalid-pch",
+    "-Winvalid-offsetof",
+    "-pthread"
+]
+
+# Include directories
+includes = [
+    "include",
+    "third_party/glfw/include",
+    "third_party/glm",
+    "third_party/stb"
+]
+
+# Source directories
+sources = [
+    "src",
+    "src/rendering",
+    "src/core",
+    "src/math",
+    "src/util"
+]
+
+# Files to ignore
+exclude = [
+    "src/tests",
+    "src/experimental"
+]
+
+# Preprocessor definitions
+defines = [
+    "GLFW_INCLUDE_NONE",
+    "USE_OPENGL",
+    "ENABLE_LOGGING"
+]
+
+# Libraries
+[libraries]
+
+system = [
+    "GL",
+    "dl",
+    "pthread"
+]
+
+static = [
+    "third_party/lib/libglfw.a"
+]
+
+shared = []
+
+# Linker
+[linker]
+flags = [
+    "-Wl,--as-needed"
+]
+
+# Assets copied after build
+[assets]
+copy = [
+    "assets",
+    "shaders",
+    "textures"
+]
+
+# Build configurations
+[profiles.debug]
+optimization = "O0"
+debug = true
+defines = ["DEBUG"]
+
+[profiles.release]
+optimization = "O3"
+debug = false
+defines = ["NDEBUG"]
+strip = true
+
+# Tests
+[tests]
+enabled = true
+directory = "tests"
+
+# Formatting
+[format]
+command = "clang-format"
+style = "LLVM"
+
+# Linting
+[lint]
+command = "clang-tidy"
+checks = [
+    "modernize-*",
+    "performance-*",
+    "bugprone-*"
+]
+
+# Custom commands
+[[steps]]
+name = "Generate Version Header"
+before = "compile"
+command = "./scripts/gen_version"
+
+[[steps]]
+name = "Copy Resources"
+after = "build"
+command = "./scripts/copy_assets"
+
+# Environment variables
+[env]
+ASSET_PATH = "./assets"
+LOG_LEVEL = "info"
