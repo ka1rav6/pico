@@ -76,7 +76,7 @@ pub const Value = struct {
         return self.inner.as.float_val;
     }
 
-    pub fn bool(self: Value) ?bool {
+    pub fn boolean(self: Value) ?bool {
         if (self.inner.type != c.VAL_BOOL) return null;
         return self.inner.as.boolean;
     }
@@ -142,7 +142,7 @@ pub const Table = struct {
         return v.float();
     }
 
-    pub fn bool(self: Table, key: []const u8) ?bool {
+    pub fn boolean(self: Table, key: []const u8) ?bool {
         const v = self.get(key) orelse return null;
         return v.bool();
     }
@@ -234,7 +234,7 @@ pub const ParsedToml = struct {
         return self.root().int(key);
     }
 
-    pub fn bool(self: *const ParsedToml, key: []const u8) ?bool {
+    pub fn boolean(self: *const ParsedToml, key: []const u8) ?bool {
         return self.root().bool(key);
     }
 };
