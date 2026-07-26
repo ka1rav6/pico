@@ -529,7 +529,7 @@ static inline bool lexer_next_token(Lexer *l) {
       return lexer_add_token(l, TOK_BOOL, l->src + l->pos - 4, 4, sl, sc);
     }
     if (lexer_match_keyword(l, "false", 5)) {
-      for (int i = 1; i < 5; i++)
+      for (int i = 0; i < 5; i++)
         lexer_advance(l);
       return lexer_add_token(l, TOK_BOOL, l->src + l->pos - 5, 5, sl, sc);
     }
@@ -541,11 +541,8 @@ static inline bool lexer_next_token(Lexer *l) {
 
 bool lexer_tokenize(Lexer *l) {
   while (!l->has_error) {
-    if (!lexer_next_token(l)) {
-      if (l->has_error)
-        return false;
-    }
-    break;
+    if (!lexer_next_token(l))
+      return false;
   }
   return !l->has_error;
 }
