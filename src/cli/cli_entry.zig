@@ -7,20 +7,24 @@ const Counter = @import("../diagnostics/counter.zig").Counter;
 fn cbuild(args: anytype, counter: Counter) void {
     std.debug.print("Build Called Successfully\n", .{});
     _ = args;
+    _ = counter;
 }
 fn run(args: anytype, counter: Counter) void {
     std.debug.print("Run Called Successfully\n", .{});
     _ = args;
+    _ = counter;
 }
 
 fn add(args: anytype, counter: Counter) void {
     std.debug.print("Add Called Successfully\n", .{});
     _ = args;
+    _ = counter;
 }
 
 fn c_init(args: anytype, counter: Counter) void {
     std.debug.print("Init Called Successfully\n", .{});
     _ = args;
+    _ = counter;
 }
 
 pub fn handle_cli(
