@@ -1,0 +1,129 @@
+# ==========================
+# Compiled Object files
+# ==========================
+*.o
+*.obj
+*.lo
+*.slo
+
+# ==========================
+# Executables
+# ==========================
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+*.elf
+
+# ==========================
+# Static and Dynamic Libraries
+# ==========================
+*.a
+*.lib
+*.so
+*.so.*
+*.dll
+*.dylib
+
+# ==========================
+# Debug files
+# ==========================
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# ==========================
+# Build directories
+# ==========================
+build/
+bin/
+lib/
+Debug/
+Release/
+cmake-build-*/
+out/
+
+# ==========================
+# CMake
+# ==========================
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+CTestTestfile.cmake
+Makefile
+install_manifest.txt
+
+# ==========================
+# Ninja
+# ==========================
+.ninja_deps
+.ninja_log
+build.ninja
+
+# ==========================
+# Autotools
+# ==========================
+autom4te.cache/
+aclocal.m4
+configure
+config.log
+config.status
+libtool
+m4/
+
+# ==========================
+# Visual Studio
+# ==========================
+.vs/
+*.vcxproj.user
+*.VC.db
+*.VC.opendb
+
+# ==========================
+# VS Code
+# ==========================
+.vscode/
+
+# ==========================
+# CLion / IntelliJ
+# ==========================
+.idea/
+
+# ==========================
+# macOS
+# ==========================
+.DS_Store
+
+# ==========================
+# Linux
+# ==========================
+*~
+
+# ==========================
+# Windows
+# ==========================
+Thumbs.db
+Desktop.ini
+
+# ==========================
+# Logs
+# ==========================
+*.log
+
+# ==========================
+# Coverage
+# ==========================
+*.gcda
+*.gcno
+*.gcov
+coverage/
+
+# ==========================
+# Temporary files
+# ==========================
+*.tmp
+*.temp
