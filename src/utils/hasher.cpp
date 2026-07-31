@@ -1,6 +1,6 @@
 #include "hasher.hpp"
 
-#include <blake3.h>
+#include <blake3.h> // submodule for hashing
 
 #include <fstream>
 #include <iomanip>
@@ -8,6 +8,9 @@
 
 namespace Pico {
 
+// reads a file through the buffer and hashes it.
+// returns the hash
+// Note: the hash is just an std::array of uint8_t
 Hash Hasher::hash_file(const std::filesystem::path &path) {
   constexpr size_t BUFFER_SIZE = 64 * 1024;
   std::ifstream file(path, std::ios::binary);
@@ -36,10 +39,7 @@ std::string Hasher::to_hex(const Hash &hash) {
     ss << std::hex << std::setw(2) << std::setfill('0')
        << static_cast<int>(byte);
   }
-
   return ss.str();
 }
-
 bool Hasher::equal(const Hash &a, const Hash &b) { return a == b; }
-
 } // namespace Pico
