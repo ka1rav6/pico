@@ -6,46 +6,45 @@
 #include <string>
 #include <unordered_map>
 
-namespace Pico {
+namespace Pico::HASH {
 
 using Hash = std::array<uint8_t, 32>;
 
 class Hasher {
 public:
-  static Hash hash_file(const std::filesystem::path &path);
-  static std::string to_hex(const Hash &hash);
-  static bool equal(const Hash &a, const Hash &b);
+    static Hash hash_file(const std::filesystem::path &path);
+    static std::string to_hex(const Hash &hash);
+    static bool equal(const Hash &a, const Hash &b);
 };
 
 enum FileType { HEADER, CPP_FILE };
 struct File {
-  FileType type;
-  std::filesystem::path file;
-  File(FileType t, std::filesystem::path f) : type(t), file(std::move(f)) {}
-  File() = default;
-  bool operator==(const File &other) const {
-    return type == other.type && file == other.file;
-  }
+    FileType type;
+    std::filesystem::path file;
+    File(FileType t, std::filesystem::path f) : type(t), file(std::move(f)) {}
+    File() = default;
+    bool operator==(const File &other) const {
+        return type == other.type && file == other.file;
+    }
 };
 
-} // namespace Pico
+} // namespace Pico::HASH
 
-template<>
-struct std::hash<Pico::File> {
-  size_t operator()(const Pico::File &f) const noexcept {
-    return std::hash<int>()(f.type) ^
-           (std::hash<std::string>()(f.file.string()) << 1);
-  }
+template <> struct std::hash<Pico::HASH::File> {
+    size_t operator()(const Pico::HASH::File &f) const noexcept {
+        return std::hash<int>()(f.type) ^
+               (std::hash<std::string>()(f.file.string()) << 1);
+    }
 };
 
-namespace Pico {
+namespace Pico::HASH {
 
 typedef std::unordered_map<File, std::string> HashMap;
 class HashedFileSystem {
 public:
-  HashMap map;
-  void to_file(std::filesystem::path file);
-  HashedFileSystem() = default;
+    HashMap map;
+    void to_file(std::filesystem::path file);
+    HashedFileSystem() = default;
 };
 
-} // namespace Pico
+} // namespace Pico::HASH
