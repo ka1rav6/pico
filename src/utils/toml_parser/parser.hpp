@@ -19,12 +19,12 @@ enum class ValType {
     VAL_INLINE_TABLE,
 };
 
-struct Table;
+struct TomlTable;
 
 // a TOML value - holds any of the supported types
 struct Value {
     ValType type;
-    std::variant<long, double, std::string, bool, std::vector<Value>, Table *>
+    std::variant<long, double, std::string, bool, std::vector<Value>, TomlTable *>
         as;
 };
 
@@ -35,7 +35,7 @@ Value value_string(const std::string &v);
 Value value_bool(bool v);
 Value value_datetime(const std::string &v);
 Value value_array(std::vector<Value> items);
-Value value_inline_table(Table *t);
+Value value_inline_table(TomlTable *t);
 
 // a key can be dotted: "database.host" -> segments = ["database", "host"]
 struct Key {
@@ -49,17 +49,18 @@ struct Entry {
 };
 
 // a table is a [header] section containing entries and optional child tables
-struct Table {
+struct TomlTable {
     std::vector<Entry> entries;
-    std::vector<Table *> children;
+    std::vector<TomlTable *> children;
     std::string name;
     bool is_array = false; // true for [[array_of_tables]]
 };
 
 // the root program - holds the implicit root table and all named tables
 struct Program {
-    Table root;
-    std::vector<Table *> all_tables;
+    TomlTable root;
+    std::vector<TomlTable *> all_tables;
+    ~Program();
 };
 
 // parser state
@@ -82,13 +83,13 @@ private:
     void skip_newlines();
     std::string token_to_string(const Token *t) const;
     std::string token_string_unquote(const Token *t) const;
-    Table *find_or_create_child(Table *parent, const std::string &name,
-                                bool is_array);
-    bool parse_value(Value *out);
-    bool parse_array(Value *out);
-    bool parse_inline_table_content(Table *out);
+    TomlTable *find_or_create_child(TomlTable *parent, const std::string &name,
+                                    bool is_array);
+    bool parse_value(Value *out, Program *prog);
+    bool parse_array(Value *out, Program *prog);
+    bool parse_inline_table_content(TomlTable *out, Program *prog);
     bool parse_key(Key *out);
-    bool parse_entry(Entry *out);
+    bool parse_entry(Entry *out, Program *prog);
     bool parse_table_header(Program *prog, bool is_array);
 };
 
