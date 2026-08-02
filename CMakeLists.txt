@@ -48,6 +48,10 @@ add_executable(pico
   src/utils/hasher.cpp
   src/scanner/scanner.cpp
   src/diagnostics/output.cpp
+  src/utils/toml_parser/lexer.cpp
+  src/utils/toml_parser/parser.cpp
+  src/utils/toml_parser/toml.cpp
+  src/config/read_config.cpp
 )
 
 target_include_directories(pico PRIVATE
