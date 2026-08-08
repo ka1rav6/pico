@@ -45,6 +45,7 @@ add_subdirectory(third_party_utils/blake3/c)
 add_executable(pico
   src/main.cpp
   src/cli/cli_entry.cpp
+  src/cli/argparser.cpp
   src/utils/hasher.cpp
   src/scanner/scanner.cpp
   src/diagnostics/output.cpp
