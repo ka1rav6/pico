@@ -1,36 +1,72 @@
 #include "cli_entry.h"
 
-void Pico::handle_cli(const char **input) {
-  if (input == nullptr || input[0] == nullptr)
-    return;
-  std::stringstream iss(input[0]);
-  std::string word;
-  iss >> word;
-  if (word == "build") {
-    std::cout << "Build command\n";
-  } else if (word == "run") {
-    std::cout << "Run command\n";
-  } else if (word == "add") {
-    std::cout << "Add command\n";
-  } else if (word == "init") {
-    std::cout << "Init command\n";
-  } else if (word == "test") {
-    std::cout << "Test command\n";
-  } else if (word == "help") {
-    std::cout << "Help command\n";
-  } else if (word == "clean") {
-    std::cout << "Clean command\n";
-  } else if (word == "explain") {
-    std::cout << "Explain command\n";
-  } else if (word == "graph") {
-    std::cout << "Graph command\n";
-  } else if (word == "doctor") {
-    std::cout << "Doctor command\n";
-  } else if (word == "fmt") {
-    std::cout << "Fmt command\n";
-  } else if (word == "check") {
-    std::cout << "Check command\n";
-  } else {
-    std::cout << "Command not found : " << word << std::endl;
-  }
+#include <iostream>
+#include <string>
+
+#include "argparser.hpp"
+#include "specs.hpp"
+
+namespace Pico {
+namespace {
+
+void print_usage() {
+    std::cout << "pico - an extremely fast, cargo-like build system for C++\n\n"
+              << "usage: pico <command> [args]\n\n"
+              << "Commands:\n";
+    for (const auto *spec : cli::all_specs())
+        std::cout << "  " << spec->name << "\t" << spec->summary << "\n";
+    std::cout << "\nRun `pico help <command>` for details.\n";
 }
+
+} // namespace
+
+void handle_cli(int argc, const char **argv) {
+    if (argc < 2) {
+        print_usage();
+        return;
+    }
+
+    std::string command = argv[1];
+
+    const cli::ArgSpec *spec = cli::spec_for(command);
+    if (spec == nullptr) {
+        std::cerr << "pico: unknown command `" << command
+                  << "`\n  see `pico help` for the command list\n";
+        return;
+    }
+
+    cli::ParseError error;
+    auto args = cli::parse(*spec, argc - 1, argv + 1, error);
+    if (!args) {
+        std::cerr << "pico " << command << ": " << error.message;
+        if (!error.hint.empty())
+            std::cerr << "\n  " << error.hint;
+        std::cerr << "\n";
+        return;
+    }
+
+    if (args->has("help")) {
+        cli::print_help(*spec);
+        return;
+    }
+
+    if (command == "help") {
+        if (args->positionals.empty()) {
+            print_usage();
+            return;
+        }
+        const cli::ArgSpec *target = cli::spec_for(args->positionals[0]);
+        if (target == nullptr) {
+            std::cerr << "pico: unknown command `" << args->positionals[0]
+                      << "`\n";
+            return;
+        }
+        cli::print_help(*target);
+        return;
+    }
+
+    std::cout << "pico " << command
+              << ": command handler not implemented yet\n";
+}
+
+} // namespace Pico

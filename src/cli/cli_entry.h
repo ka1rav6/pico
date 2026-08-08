@@ -1,11 +1,7 @@
 #pragma once
 
-#include <iostream>
-#include <sstream>
-#include <string>
-
 namespace Pico {
 
-void handle_cli(const char **input);
+void handle_cli(int argc, const char **argv);
 
 } // namespace Pico
